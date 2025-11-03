@@ -1,0 +1,44 @@
+{
+  "users": [
+    {
+      "id": "user123",
+      "email": "user123@example.com",
+      "password": "1234",
+      "gender": "남성",
+      "height": 175,
+      "weight": 68,
+      "records": [
+        {
+          "date": "2026-10-01",
+          "items": [
+            { "name": "Cake", "summary": "당분이 높음. 섭취 주의." },
+            { "name": "Chicken", "summary": "단백질 충분. 구이 추천." }
+          ]
+        },
+        {
+          "date": "2026-10-02",
+          "items": [
+            { "name": "Pizza", "summary": "나트륨 높음. 채소 토핑 추천." },
+            { "name": "Ice cream", "summary": "칼로리 높음. 소량 섭취." }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "user456",
+      "email": "user456@example.com",
+      "password": "abcd",
+      "gender": "여성",
+      "height": 160,
+      "weight": 52,
+      "records": [
+        {
+          "date": "2026-10-01",
+          "items": [
+            { "name": "Hamburger", "summary": "포화지방 많음. 과다 섭취 주의." }
+          ]
+        }
+      ]
+    }
+  ]
+}
