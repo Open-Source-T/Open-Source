@@ -1,50 +1,206 @@
 <!DOCTYPE html>
 <html lang="ko">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Health Care - 기록 조회</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Health Care - 로그인 및 기록 조회</title>
+  <style>
+    body {
+      font-family: "Noto Sans KR", sans-serif;
+      background: #f9fafc;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background-color: #2c3e50;
+      color: white;
+      text-align: center;
+      padding: 1rem;
+    }
+
+    main {
+      max-width: 600px;
+      margin: 2rem auto;
+      background: white;
+      padding: 2rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    input {
+      width: 100%;
+      margin-bottom: 1rem;
+      padding: 0.7rem;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    button {
+      width: 100%;
+      padding: 0.8rem;
+      background: #3498db;
+      border: none;
+      color: white;
+      font-size: 1rem;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .daily-log {
+      border-left: 4px solid #3498db;
+      padding-left: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    h3 {
+      color: #2c3e50;
+    }
+  </style>
 </head>
-
 <body>
-    <header>
-        <h1>AI Health Care</h1>
-    </header>
-    <main>
-        <h2>기록 조회</h2>
-        <!-- TODO: HTML이 서버에서 데이터를 불러오도록 수정하기 -->
-        <section id="recordList">
-            <div class="daily-log">
-                <h3>2026-10-01</h3>
-                <ul>
-                    <li>- Cake (분석 결과 요약 / 코칭 내용)</li>
-                    <li>- Chicken (분석 결과 요약 / 코칭 내용)</li>
-                    <li>- Chocolate (분석 결과 요약 / 코칭 내용)</li>
-                </ul>
-            </div>
+  <header>
+    <h1>AI Health Care</h1>
+  </header>
 
-            <div class="daily-log">
-                <h3>2026-10-02</h3>
-                <ul>
-                    <li>- Cookie (분석 결과 요약 / 코칭 내용)</li>
-                    <li>- Donut (분석 결과 요약 / 코칭 내용)</li>
-                    <li>- Hamburger (분석 결과 요약 / 코칭 내용)</li>
-                </ul>
-            </div>
+  <main>
+    <section id="loginSection">
+      <h2>로그인</h2>
+      <input type="email" id="email" placeholder="이메일 입력" />
+      <input type="password" id="password" placeholder="비밀번호 입력" />
+      <button onclick="login()">로그인</button>
+      <p id="loginMessage"></p>
+    </section>
 
-            <div class="daily-log">
-                <h3>2026-10-02</h3>
-                <ul>
-                    <li>- Ice cream (분석 결과 요약 / 코칭 내용)</li>
-                    <li>- Pizza (분석 결과 요약 / 코칭 내용)</li>
-                    <li>- Potato chips (분석 결과 요약 / 코칭 내용)</li>
-                </ul>
-            </div>
-            <p>과거 데이터를 조회하여 비교 및 관리가 가능합니다. </p>
-        </section>
+    <section id="menuSection" class="hidden">
+      <h2>메뉴 선택</h2>
+      <button onclick="showUpload()">1. 이미지 업로드 및 피드백</button>
+      <button onclick="showRecords()">2. 기록 조회</button>
+    </section>
 
-    </main>
+    <section id="recordSection" class="hidden">
+      <h2>기록 조회</h2>
+      <div id="userInfo" style="background:#ecf5ff;padding:1rem;border-radius:6px;margin-bottom:1rem;">
+        <p><strong>성별:</strong> <span id="gender"></span></p>
+        <p><strong>신장:</strong> <span id="height"></span> cm</p>
+        <p><strong>체중:</strong> <span id="weight"></span> kg</p>
+      </div>
+      <div id="recordList">불러오는 중...</div>
+    </section>
+
+    <section id="uploadSection" class="hidden">
+      <h2>이미지 업로드</h2>
+      <p>이곳에서 식단 이미지를 업로드하고 AI 피드백을 받을 수 있습니다.</p>
+      <input type="file" id="mealImage" accept="image/*" />
+      <button onclick="backToMenu()">← 메뉴로 돌아가기</button>
+    </section>
+
+  </main>
+
+  <script>
+    let currentUser = null; // 로그인 사용자 정보 저장
+
+    async function login() {
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+      const message = document.getElementById("loginMessage");
+
+      try {
+        const res = await fetch("/api/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, password }),
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) {
+          message.textContent = data.error;
+          message.style.color = "red";
+          return;
+        }
+
+        message.textContent = `${data.email}님 환영합니다!`;
+        message.style.color = "green";
+
+        // ✅ 로그인 화면 숨기고 메뉴 화면 표시
+        document.getElementById("loginSection").classList.add("hidden");
+        document.getElementById("menuSection").classList.remove("hidden");
+
+        currentUser = data; // 사용자 정보 저장
+      } catch (err) {
+        console.error(err);
+        message.textContent = "로그인 중 오류 발생";
+        message.style.color = "red";
+      }
+    }
+
+    // ✅ 메뉴 이동 함수
+    function showUpload() {
+      document.getElementById("menuSection").classList.add("hidden");
+      document.getElementById("uploadSection").classList.remove("hidden");
+    }
+
+    function showRecords() {
+      document.getElementById("menuSection").classList.add("hidden");
+      document.getElementById("recordSection").classList.remove("hidden");
+
+      // 사용자 정보 표시
+      document.getElementById("gender").textContent = currentUser.gender || "정보 없음";
+      document.getElementById("height").textContent = currentUser.height || "-";
+      document.getElementById("weight").textContent = currentUser.weight || "-";
+
+      loadRecords(currentUser.userId);
+    }
+
+    function backToMenu() {
+      document.querySelectorAll("section").forEach(sec => sec.classList.add("hidden"));
+      document.getElementById("menuSection").classList.remove("hidden");
+    }
+
+    // ✅ 기록 로드 함수
+    async function loadRecords(userId) {
+      const container = document.getElementById("recordList");
+      container.innerHTML = "불러오는 중...";
+
+      try {
+        const res = await fetch(`/api/records?userId=${userId}`);
+        const data = await res.json();
+
+        if (!res.ok) {
+          container.innerHTML = `<p style="color:red;">${data.error}</p>`;
+          return;
+        }
+
+        if (!data || data.length === 0) {
+          container.innerHTML = `<p>기록이 없습니다.</p>`;
+          return;
+        }
+
+        container.innerHTML = "";
+        data.forEach(day => {
+          const div = document.createElement("div");
+          div.className = "daily-log";
+          div.innerHTML = `
+            <h3>${day.date}</h3>
+            <ul>
+              ${day.items
+                .map(item => `<li><strong>${item.name}</strong> - ${item.summary}</li>`)
+                .join("")}
+            </ul>
+          `;
+          container.appendChild(div);
+        });
+      } catch (err) {
+        console.error(err);
+        container.innerHTML = `<p>데이터를 불러오는 중 오류 발생</p>`;
+      }
+    }
+  </script>
+
 </body>
-
 </html>
