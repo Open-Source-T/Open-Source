@@ -27,6 +27,6 @@ Image(filename='runs/detect/train/results.png', width=600)
 
 # 테스트
 results = model.predict(
-    source='/content/drive/MyDrive/yolo_dataset/val/images',
+    source='/content/drive/MyDrive/Dataset/valid/images',
     conf=0.5
 )
