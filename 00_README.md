@@ -11,32 +11,32 @@
 ## Project Structure // 프로젝트 구조가 변경될 경우 수정해주세요
 ```
 Open-Source/
-├── README.md
-├── LICENSE
-├── 00_Document  # 이 디렉토리는 제안서와 보고서 디렉토리입니다.
+├── 00_README.md
+├── 01_LICENSE
+├── 02_Document            # 이 디렉토리는 제안서와 보고서 디렉토리입니다.
 │ ├── Team Project AI Health Care 제안서.pdf
 │ ├── Team Project AI Health Care 보고서.pdf
 │ ├── Team Project AI Health Care 개인 보고서 (유준혁).pdf
 │ ├── Team Project AI Health Care 개인 보고서 (김화완).pdf
 │ ├── Team Project AI Health Care 개인 보고서 (박경빈).pdf
 │ └── Team Project AI Health Care 개인 보고서 (정승일).pdf
-├── 01_ai_model/ # 이 디렉토리는 인공지능 모델 관련 디렉토리입니다.
+├── 03_ai_model/           # 이 디렉토리는 인공지능 모델 관련 디렉토리입니다.
 │ ├── 00_dataset/          # 이 디렉토리는 데이터셋 디렉토리입니다.
 │ ├── 01_model_train_code/ # 이 디렉토리는 모델 학습 코드 디렉토리입니다.
 │ └── 02_model/            # 이 디렉토리는 모델 디렉토리입니다.
-├── 02_frontend/ # 이 디렉토리는 프론트엔드 관련 디렉토리입니다.
-│ ├── 00_html/             # 이 디렉토리는 HTML 파일 디렉토리입니다.
+├── 04_frontend/           # 이 디렉토리는 프론트엔드 관련 디렉토리입니다.
+│ ├── 00_HTML/             # 이 디렉토리는 HTML 파일 디렉토리입니다.
 │ │ ├── index.html
 │ │ ├── sign_up.html
 │ │ ├── upload.html
 │ │ ├── result.html
 │ │ └── record.html
-│ ├── 01_css/              # 이 디렉토리는 CSS 파일 디렉토리입니다.
+│ ├── 01_CSS/              # 이 디렉토리는 CSS 파일 디렉토리입니다.
 │ │ └── style.css
-│ └── 02_js/               # 이 디렉토리는 JavaScript 파일 디렉토리입니다.
+│ └── 02_JS/               # 이 디렉토리는 JavaScript 파일 디렉토리입니다.
 │   └── script.css
-└── 03_backend/  # 이 디렉토리는 백엔드 관련 디렉토리입니다.
-  └── server.py
+└── 05_backend/            # 이 디렉토리는 백엔드 관련 디렉토리입니다.
+  └── 
 ```
 
 ## Installation // 설치된 프레임워크가 변경된 경우 수정해주세요
@@ -91,13 +91,13 @@ This project is licensed under the MIT License.
 
 ## Authors // Email을 수정해주세요
 - Yoo, J. H. ([Yoo, J. H.](https://github.com/YooJunHyuk123))
-- Email: a01091040305@gmail.com
+Email: a01091040305@gmail.com
 
 - Kim, H. W. ([Kim, H. W.](https://github.com/flecy0904))
-- Email: @gmail.com
+Email: @gmail.com
 
 - Park, K. B. ([Park, K. B.](https://github.com/BiNdellx))
-- Email: @gmail.com
+Email: @gmail.com
 
 - Jung, S. I. ([Jung, S. I.](https://github.com/DNUBI))
-- Email: @gmail.com
+Email: @gmail.com
