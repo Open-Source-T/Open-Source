@@ -1,0 +1,45 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Health Care - 음식 업로드</title>
+    <link rel="stylesheet" href="{% static '01_css/style.css' %}">
+</head>
+
+<body>
+    <header>
+        <h1>AI Health Care</h1>
+        <nav>
+            <a href="{% url 'logout_view' %}">로그아웃</a>
+        </nav>
+    </header>
+
+    <main>
+        <h2>음식 사진 업로드</h2>
+
+        {% if messages %}
+        <ul>
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+
+        <form method="POST" enctype="multipart/form-data" action="{% url 'upload' %}">
+            {% csrf_token %}
+            <div>
+                <label for="food_image">음식 사진 선택:</label>
+                <input type="file" id="food_image" name="food_image" accept="image/*" required>
+            </div>
+            <button type="submit">분석하기</button>
+        </form>
+    </main>
+
+    <footer>
+    </footer>
+</body>
+
+</html>
