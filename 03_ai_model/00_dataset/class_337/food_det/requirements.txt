@@ -1,4 +1,0 @@
-ultralytics>=8.3,<9
-torch>=2.5,<3
-torchvision>=0.20,<0.22
-flask>=3.0,<4
