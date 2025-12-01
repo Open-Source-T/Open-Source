@@ -1,3 +1,5 @@
+<!-- upload.html -->
+
 {% load static %}
 <!DOCTYPE html>
 <html lang="ko">
@@ -6,13 +8,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI Health Care - 음식 업로드</title>
-    <link rel="stylesheet" href="{% static '01_css/style.css' %}">
+    <link rel="stylesheet" href="{% static '01_CSS/style.css' %}">
 </head>
 
 <body>
     <header>
         <h1>AI Health Care</h1>
         <nav>
+            <a href="{% url 'record' %}">분석 기록</a> |
             <a href="{% url 'logout_view' %}">로그아웃</a>
         </nav>
     </header>

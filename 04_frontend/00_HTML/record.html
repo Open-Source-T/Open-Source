@@ -1,11 +1,14 @@
+<!-- record.html -->
+
 {% load static %}
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI Health Care - 기록 조회</title>
-    <link rel="stylesheet" href="{% static '01_css/style.css' %}">
+    <link rel="stylesheet" href="{% static '01_CSS/style.css' %}">
 </head>
 
 <body>
@@ -21,11 +24,11 @@
         <h2>분석 기록</h2>
 
         {% if description %}
-            <div>
-                {{ description|linebreaks }}
-            </div>
+        <div>
+            {{ description|linebreaks }}
+        </div>
         {% else %}
-            <p>아직 업로드된 음식 기록이 없습니다.</p>
+        <p>아직 업로드된 음식 기록이 없습니다.</p>
         {% endif %}
     </main>
 

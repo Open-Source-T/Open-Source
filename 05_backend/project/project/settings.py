@@ -12,15 +12,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 from pathlib import Path
 
-# AbstractUser 사용
-AUTH_USER_MODEL = 'ai_health_care.UserInfo'
-
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
-FRONTEND_DIR = BASE_DIR / '../../04_frontend/00_HTML'
-
 # Application definition
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -31,10 +23,17 @@ INSTALLED_APPS = [
     'ai_health_care',
 ]
 
+# AbstractUser 사용
+AUTH_USER_MODEL = 'ai_health_care.UserInfo'
+
+# Build paths inside the project like this: BASE_DIR / 'subdir'.
+BASE_DIR = Path(__file__).resolve().parent.parent
+HTML_DIR = BASE_DIR / '../../04_frontend/00_HTML'
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [str(FRONTEND_DIR.resolve())],
+        'DIRS': [str(HTML_DIR.resolve())],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -45,6 +44,8 @@ TEMPLATES = [
         },
     },
 ]
+
+STATICFILES_DIRS = [str(BASE_DIR / '../../04_frontend')]
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/

@@ -8,7 +8,7 @@
 - 사용자 정보, 칼로리와 영양성분 정보 기반 건강 코칭을 제공합니다.
 - 분석 결과와 사용자 맞춤 건강 코칭을 저장하고 조회하는 기능을 제공합니다.
 
-## Project Structure // 프로젝트 구조가 변경될 경우 수정해주세요
+## Project Structure
 ```
 Open-Source/
 ├── 00_README.md
@@ -19,7 +19,8 @@ Open-Source/
 │ ├── Team Project AI Health Care 개인 보고서 (유준혁).pdf
 │ ├── Team Project AI Health Care 개인 보고서 (김화완).pdf
 │ ├── Team Project AI Health Care 개인 보고서 (박경빈).pdf
-│ └── Team Project AI Health Care 개인 보고서 (정승일).pdf
+│ ├── Team Project AI Health Care 개인 보고서 (정승일).pdf
+│ └── Team Project AI Health Care 발표자료.pdf
 ├── 03_ai_model/           # 이 디렉토리는 인공지능 모델 관련 디렉토리입니다.
 │ ├── 00_dataset/          # 이 디렉토리는 데이터셋 디렉토리입니다.
 │ ├── 01_model_train_code/ # 이 디렉토리는 모델 학습 코드 디렉토리입니다.
@@ -29,17 +30,27 @@ Open-Source/
 │ │ ├── index.html
 │ │ ├── sign_up.html
 │ │ ├── upload.html
-│ │ ├── result.html
 │ │ └── record.html
-│ ├── 01_CSS/              # 이 디렉토리는 CSS 파일 디렉토리입니다.
-│ │ └── style.css
-│ └── 02_JS/               # 이 디렉토리는 JavaScript 파일 디렉토리입니다.
-│   └── script.css
-└── 05_backend/            # 이 디렉토리는 백엔드 관련 디렉토리입니다.
-  └── 
+│ └── 01_CSS/              # 이 디렉토리는 CSS 파일 디렉토리입니다.
+│   └── style.css
+└── 05_backend/project     # 이 디렉토리는 백엔드 관련 디렉토리입니다.
+  ├── manage.py
+  ├── db.sqlite3
+  ├── project
+  │ ├── settings.py
+  │ ├── urls.py
+  │ ├── asgi.py
+  │ └── wsgi.py
+  └── ai_helath_care
+    ├── models.py
+    ├── views.py
+    ├── admin.py
+    ├── apps.py
+	├── tests.py
+    └── migrations
 ```
 
-## Installation // 설치된 프레임워크가 변경된 경우 수정해주세요
+## Installation
 1. Clone the repository
 	```
 	gh repo clone Open-Source-T/Open-Source
@@ -52,7 +63,7 @@ Open-Source/
 
 3. Install dependencies
 	```
-	pip install [dependencies]
+	pip install django
 	```
 
 ## Usage
@@ -89,15 +100,12 @@ Open-Source/
 ## License
 This project is licensed under the MIT License.
 
-## Authors // Email을 수정해주세요
+## Authors ${\textsf{\color{#ff0000}// Email을 수정해주세요}}$
 - Yoo, J. H. ([Yoo, J. H.](https://github.com/YooJunHyuk123))
 Email: a01091040305@gmail.com
-
 - Kim, H. W. ([Kim, H. W.](https://github.com/flecy0904))
 Email: @gmail.com
-
 - Park, K. B. ([Park, K. B.](https://github.com/BiNdellx))
 Email: @gmail.com
-
 - Jung, S. I. ([Jung, S. I.](https://github.com/DNUBI))
 Email: @gmail.com
