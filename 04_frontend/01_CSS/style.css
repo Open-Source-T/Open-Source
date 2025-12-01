@@ -1,0 +1,128 @@
+/* style.css */
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #f5f8fc;
+    margin: 0;
+    padding: 0;
+    color: #333;
+}
+
+header {
+    background: #4A90E2;
+    padding: 20px;
+    text-align: center;
+    color: white;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 28px;
+}
+
+nav {
+    margin-top: 10px;
+}
+
+nav a {
+    color: #ffffff;
+    text-decoration: underline;
+    font-size: 15px;
+    margin: 0 5px;
+}
+
+main {
+    width: 100%;
+    max-width: 450px;
+    margin: 60px auto;
+    padding: 30px;
+    background: #ffffff;
+    border-radius: 14px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+h2 {
+    text-align: center;
+    margin-top: 0;
+}
+
+form div {
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="number"],
+input[type="file"],
+select {
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #cccccc;
+    font-size: 14px;
+    box-sizing: border-box;
+    background-color: #fafafa;
+}
+
+input[type="file"] {
+    padding: 6px;
+}
+
+button {
+    width: 100%;
+    padding: 14px;
+    background-color: #4A90E2;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #3b7ac0;
+}
+
+ul {
+    padding-left: 20px;
+    margin-bottom: 20px;
+}
+
+ul li {
+    background: #e9f3ff;
+    color: #2a5ea8;
+    border-left: 4px solid #4A90E2;
+    padding: 10px;
+    margin-bottom: 8px;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+a {
+    color: #4A90E2;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+main div {
+    white-space: pre-line;
+    line-height: 1.6;
+}
+
+/* 모바일 전용 */
+@media (max-width: 480px) {
+    main {
+        margin: 20px;
+        padding: 20px;
+    }
+}
