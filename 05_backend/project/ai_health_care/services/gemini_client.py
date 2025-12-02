@@ -70,12 +70,11 @@ def _build_prompt(age, sex, height, weight, food):
     sex_label = {"M": "male", "F": "female"}.get(str(sex).upper(), sex or "unknown sex")
     food_label = food if food else "an unknown meal"
     return (
-        "You are a nutrition assistant.\n"
-        f"The user is {age} years old, {sex_label}, {height}cm tall, and weighs {weight}kg.\n"
-        f"The user ate: {food_label}.\n"
-        "Return exactly one line in this format: "
-        "'Calories: <kcal>, Carbs: <g>, Protein: <g>, Fat: <g>, Advice: <short advice in Korean>'. "
-        "Do not add bullet points, introductions, or extra quotes."
+        "당신은 영양 코치입니다. 사용자의 나이, 성별, 키, 몸무게와 사용자가 섭취할 음식을 종합적으로 고려하여 헬스 코칭합니다.\n"
+        f"사용자 정보: 나이 {age}세, 성별 {sex_label}, 키 {height}cm, 몸무게 {weight}kg.\n"
+        f"사용자가 섭취한 음식: {food_label}.\n"
+        "아래 형식을 정확히 한 줄로 출력하세요(앞뒤에 불릿/인사말/따옴표 추가 금지): "
+        "'칼로리: <kcal>, 탄수화물: <g>, 단백질: <g>, 지방: <g>, 조언: <한국어로 상세한 조언>'"
     )
 
 
