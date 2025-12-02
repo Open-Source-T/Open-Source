@@ -28,6 +28,13 @@ export function SignUpPage() {
     setError('')
     setSuccess('')
     setLoading(true)
+
+    if (form.password1 !== form.password2) {
+      setError('비밀번호가 일치하지 않습니다.')
+      setLoading(false)
+      return
+    }
+
     try {
       await api.signUp(form)
       setSuccess('회원가입이 완료되었습니다. 로그인 페이지로 이동합니다.')
@@ -40,13 +47,13 @@ export function SignUpPage() {
   }
 
   return (
-    <div className="card">
+    <div className="card" style={{ width: 'min(700px, 100%)' }}>
       <h2>회원가입</h2>
       <p className="muted">기본 정보를 입력하면 맞춤 영양 코칭을 받을 수 있습니다.</p>
 
       <form onSubmit={handleSubmit} className="form">
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
-          <label style={{ gridColumn: '1 / -1' }}>
+        <div className="form-grid">
+          <label className="col-span-full">
             아이디
             <input
               value={form.username}
@@ -80,7 +87,7 @@ export function SignUpPage() {
           </label>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+        <div className="form-grid">
           <label>
             나이
             <input

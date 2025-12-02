@@ -1,4 +1,4 @@
-const API_BASE = '/api';
+const API_BASE = '';
 
 type ApiOptions = RequestInit & { skipJson?: boolean };
 
@@ -42,22 +42,22 @@ export const api = {
   signUp: (payload: SignupPayload) => {
     const form = new FormData();
     Object.entries(payload).forEach(([k, v]) => form.append(k, v));
-    return apiRequest<{ username: string }>('/sign-up/', { method: 'POST', body: form });
+    return apiRequest<{ username: string }>('/api/sign-up/', { method: 'POST', body: form });
   },
   login: (username: string, password: string) => {
     const form = new FormData();
     form.append('username', username);
     form.append('password', password);
-    return apiRequest<{ username: string }>('/login/', { method: 'POST', body: form });
+    return apiRequest<{ username: string }>('/api/login/', { method: 'POST', body: form });
   },
-  logout: () => apiRequest('/logout/', { method: 'POST' }),
+  logout: () => apiRequest('/api/logout/', { method: 'POST' }),
   upload: (file: File) => {
     const form = new FormData();
     form.append('food_image', file);
-    return apiRequest<{ food: string; foods: string[]; coaching: string }>('/upload/', {
+    return apiRequest<{ food: string; foods: string[]; coaching: string }>('/api/upload/', {
       method: 'POST',
       body: form,
     });
   },
-  getRecord: () => apiRequest<{ description: string }>('/record/', { method: 'GET' }),
+  getRecord: () => apiRequest<{ description: string }>('/api/record/', { method: 'GET' }),
 };

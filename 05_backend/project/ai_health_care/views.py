@@ -172,15 +172,18 @@ def api_sign_up(request):
     if not age or not sex or not height or not weight:
         return _json_response(False, error='나이, 성별, 신장, 체중을 입력해야 합니다.', status=400)
 
-    user = UserInfo.objects.create_user(
-        username=username,
-        password=password1,
-        age=age,
-        sex=sex,
-        height=height,
-        weight=weight,
-        description='',
-    )
+    try:
+        user = UserInfo.objects.create_user(
+            username=username,
+            password=password1,
+            age=int(age),
+            sex=sex,
+            height=int(height),
+            weight=int(weight),
+            description='',
+        )
+    except ValueError:
+        return _json_response(False, error='나이, 신장, 체중은 숫자여야 합니다.', status=400)
     user.save()
     return _json_response(True, data={'username': user.username})
 
