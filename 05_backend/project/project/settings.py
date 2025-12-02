@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 import os
 from pathlib import Path
+from dotenv import load_dotenv
 
 # Application definition
 INSTALLED_APPS = [
@@ -30,6 +31,9 @@ AUTH_USER_MODEL = 'ai_health_care.UserInfo'
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 HTML_DIR = BASE_DIR / '../../04_frontend/00_HTML'
+
+# .env 로드 (GEMINI_API_KEY 등 환경 변수)
+load_dotenv(BASE_DIR / '.env')
 
 TEMPLATES = [
     {
