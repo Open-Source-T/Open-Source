@@ -13,63 +13,98 @@
 Open-Source/
 ├── README.md
 ├── 01_LICENSE
-├── 02_Document            # 이 디렉토리는 제안서와 보고서 디렉토리입니다.
-│ ├── Team Project AI Health Care 제안서.pdf
-│ ├── Team Project AI Health Care 보고서.pdf
-│ ├── Team Project AI Health Care 개인 보고서 (유준혁).pdf
-│ ├── Team Project AI Health Care 개인 보고서 (김화완).pdf
-│ ├── Team Project AI Health Care 개인 보고서 (박경빈).pdf
-│ ├── Team Project AI Health Care 개인 보고서 (정승일).pdf
-│ └── Team Project AI Health Care 발표자료.pdf
-├── 03_ai_model/           # 이 디렉토리는 인공지능 모델 관련 디렉토리입니다.
-│ ├── 00_dataset/          # 이 디렉토리는 데이터셋 디렉토리입니다.
-│ ├── 01_model_train_code/ # 이 디렉토리는 모델 학습 코드 디렉토리입니다.
-│ └── 02_model/            # 이 디렉토리는 모델 디렉토리입니다.
-├── 04_frontend/           # 이 디렉토리는 프론트엔드 관련 디렉토리입니다.
-│ ├── 00_HTML/             # 이 디렉토리는 HTML 파일 디렉토리입니다.
-│ │ ├── index.html
-│ │ ├── sign_up.html
-│ │ ├── upload.html
-│ │ └── record.html
-│ └── 01_CSS/              # 이 디렉토리는 CSS 파일 디렉토리입니다.
-│   └── style.css
-└── 05_backend/project     # 이 디렉토리는 백엔드 관련 디렉토리입니다.
-  ├── manage.py
-  ├── db.sqlite3
-  ├── project
-  │ ├── settings.py
-  │ ├── urls.py
-  │ ├── asgi.py
-  │ └── wsgi.py
-  └── ai_helath_care
-    ├── models.py
-    ├── views.py
-    ├── admin.py
-    ├── apps.py
-	├── tests.py
-    └── migrations
+├── 02_Document                # 제안서, 보고서, 발표자료
+│   ├── Team Project AI Health Care 제안서.pdf
+│   ├── Team Project AI Health Care 보고서.pdf
+│   ├── Team Project AI Health Care 개인 보고서 (유준혁).pdf
+│   ├── Team Project AI Health Care 개인 보고서 (김화완).pdf
+│   ├── Team Project AI Health Care 개인 보고서 (박경빈).pdf
+│   ├── Team Project AI Health Care 개인 보고서 (정승일).pdf
+│   └── Team Project AI Health Care 발표자료.pdf
+├── 03_ai_model/               # 인공지능 모델 관련 디렉토리
+│   ├── 00_dataset/            # 데이터셋
+│   ├── 01_model_train_code/   # 모델 학습 코드
+│   └── 02_model/              # 학습 완료 모델 (YOLO 가중치 등)
+├── 04_frontend/               # 프론트엔드
+│   ├── 00_HTML/               # 기존 정적 HTML 템플릿 (Django 템플릿에서 사용 가능)
+│   │   ├── index.html
+│   │   ├── sign_up.html
+│   │   ├── upload.html
+│   │   └── record.html
+│   ├── 01_CSS/                # 기존 정적 CSS
+│   │   └── style.css
+│   └── react-app/             # 신규 React(TypeScript) SPA
+│       ├── package.json
+│       ├── vite.config.ts
+│       └── src/
+│           ├── App.tsx        # 메인 레이아웃 및 라우팅
+│           ├── api.ts         # 백엔드 연동 API 래퍼
+│           └── pages/         # 로그인/회원가입/업로드/기록 페이지
+└── 05_backend/
+    └── project/               # Django 백엔드 프로젝트 루트
+        ├── manage.py
+        ├── requirements.txt   # 백엔드 Python 의존성
+        ├── project/
+        │   ├── settings.py
+        │   ├── urls.py
+        │   ├── asgi.py
+        │   └── wsgi.py
+        └── ai_health_care/
+            ├── models.py
+            ├── views.py
+            ├── services/      # Gemini API 클라이언트 등
+            ├── admin.py
+            ├── apps.py
+            ├── tests.py
+            └── migrations/
 ```
 
 ## Installation
-1. Clone the repository
-	```
-	gh repo clone Open-Source-T/Open-Source
-	```
+### 1. 레포지토리 클론
+```bash
+gh repo clone Open-Source-T/Open-Source
+cd Open-Source
+```
 
-2. Navigate to the project directory
-	```
-	cd Open-Source
-	```
+### 2. 백엔드(Django) 의존성 설치
+```bash
+cd 05_backend/project
 
-3. Install dependencies
-	```
-	pip install accelerate
-	pip install django
-	pip install pillow
-	pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu
-	pip install transformers
-	pip install ultralytics
-	```
+# (최초 1회) 가상환경 생성
+python -m venv .venv
+
+# 가상환경 활성화
+source .venv/bin/activate  # Windows: .venv\Scripts\activate
+
+# Python 의존성 설치
+pip install -r requirements.txt
+```
+
+### 3. Gemini API 키 설정(.env)
+`05_backend/project/.env` 파일을 생성하고 아래 형식으로 API 키를 설정합니다.
+
+```bash
+GEMINI_API_KEY=YOUR_GEMINI_API_KEY
+```
+
+### 4. 데이터베이스 마이그레이션 및 서버 실행
+```bash
+cd 05_backend/project
+source .venv/bin/activate
+python manage.py migrate
+python manage.py runserver 0.0.0.0:8000
+```
+
+### 5. 프론트엔드(React) 의존성 설치 및 실행
+새 터미널에서 다음을 실행합니다.
+
+```bash
+cd 04_frontend/react-app
+npm install
+npm run dev
+```
+
+Vite 개발 서버 주소(예: `http://localhost:5173`)로 접속하면 React 기반 UI를 통해 Django 백엔드 API(`/api/...`)와 연동된 서비스를 사용할 수 있습니다.
 
 ## Usage
 1. 회원 가입을 하고 로그인합니다.
@@ -109,7 +144,7 @@ This project is licensed under the MIT License.
 - Yoo, J. H. ([Yoo, J. H.](https://github.com/YooJunHyuk123))
 Email: a01091040305@gmail.com
 - Kim, H. W. ([Kim, H. W.](https://github.com/flecy0904))
-Email: @gmail.com
+Email: khw09040@dankook.ac.kr
 - Park, K. B. ([Park, K. B.](https://github.com/BiNdellx))
 Email: @gmail.com
 - Jung, S. I. ([Jung, S. I.](https://github.com/DNUBI))
