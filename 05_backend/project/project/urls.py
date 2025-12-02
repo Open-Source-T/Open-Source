@@ -15,16 +15,29 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
+from django.http import JsonResponse
 from django.urls import path
 from ai_health_care import views
 
+
+def api_root(request):
+    return JsonResponse(
+        {
+            'message': 'AI Health Care API',
+            'endpoints': {
+                'sign_up': '/api/sign-up/',
+                'login': '/api/login/',
+                'logout': '/api/logout/',
+                'upload': '/api/upload/',
+                'record': '/api/record/',
+            },
+        }
+    )
+
+
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.login_view, name = 'index'),
-    path('sign_up/', views.sign_up, name = 'sign_up'),
-    path('upload/', views.upload, name = 'upload'),
-    path('record/', views.record, name = 'record'),
-    path('logout/', views.logout_view, name = 'logout_view'), 
+    path('', api_root, name='api_root'),
     # API (JSON)
     path('api/sign-up/', views.api_sign_up, name='api_sign_up'),
     path('api/login/', views.api_login, name='api_login'),

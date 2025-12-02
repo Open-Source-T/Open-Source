@@ -25,15 +25,8 @@ Open-Source/
 │   ├── 00_dataset/            # 데이터셋
 │   ├── 01_model_train_code/   # 모델 학습 코드
 │   └── 02_model/              # 학습 완료 모델 (YOLO 가중치 등)
-├── 04_frontend/               # 프론트엔드
-│   ├── 00_HTML/               # 기존 정적 HTML 템플릿 (Django 템플릿에서 사용 가능)
-│   │   ├── index.html
-│   │   ├── sign_up.html
-│   │   ├── upload.html
-│   │   └── record.html
-│   ├── 01_CSS/                # 기존 정적 CSS
-│   │   └── style.css
-│   └── react-app/             # 신규 React(TypeScript) SPA
+├── 04_frontend/               # 프론트엔드 (React SPA)
+│   └── react-app/             # React(TypeScript) 애플리케이션
 │       ├── package.json
 │       ├── vite.config.ts
 │       └── src/

@@ -30,7 +30,6 @@ AUTH_USER_MODEL = 'ai_health_care.UserInfo'
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-HTML_DIR = BASE_DIR / '../../04_frontend/00_HTML'
 
 # .env 로드 (GEMINI_API_KEY 등 환경 변수)
 load_dotenv(BASE_DIR / '.env')
@@ -38,7 +37,7 @@ load_dotenv(BASE_DIR / '.env')
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [str(HTML_DIR.resolve())],
+        'DIRS': [],  # React로 전환되어 별도 HTML 템플릿 디렉토리 사용 안 함
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -49,8 +48,6 @@ TEMPLATES = [
         },
     },
 ]
-
-STATICFILES_DIRS = [str(BASE_DIR / '../../04_frontend')]
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
