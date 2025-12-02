@@ -31,7 +31,7 @@ function parseNutrition(text: string): NutritionData {
   }
 }
 
-function NutritionCard({ data }: { data: NutritionData }) {
+function NutritionCard({ data, food }: { data: NutritionData; food?: string }) {
   const [animate, setAnimate] = useState(false)
 
   useEffect(() => {
@@ -45,9 +45,23 @@ function NutritionCard({ data }: { data: NutritionData }) {
 
   return (
     <div className="nutrition-card">
-      <h3 style={{ fontSize: '1.5rem', fontWeight: 800, marginBottom: '2rem', color: 'var(--slate-900)' }}>
-        영양 분석 결과
-      </h3>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '8px', marginBottom: '1.5rem' }}>
+        <h3 style={{ fontSize: '1.5rem', fontWeight: 800, margin: 0, color: 'var(--slate-900)' }}>
+          영양 분석 결과
+        </h3>
+        <span style={{
+          background: 'var(--primary-100)',
+          color: 'var(--primary-700)',
+          padding: '6px 12px',
+          borderRadius: '12px',
+          fontWeight: 700,
+          fontSize: '0.9rem',
+          whiteSpace: 'nowrap',
+          border: '1px solid var(--primary-200)'
+        }}>
+          {food ? `음식: ${food}` : '음식: 미확인'}
+        </span>
+      </div>
 
       <div className="nutrition-item">
         <div className="nutrition-header">
@@ -157,6 +171,12 @@ export function UploadPage({ username }: Props) {
             {username ? `${username}님, ` : ''}오늘 드신 음식 사진을 올려주세요.<br />
             AI가 영양 성분을 분석하고 코칭해드립니다.
           </p>
+          {result?.food && (
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', marginBottom: '12px', padding: '8px 12px', borderRadius: '12px', background: 'var(--primary-50)', color: 'var(--primary-700)', fontWeight: 700 }}>
+              <span style={{ width: 8, height: 8, borderRadius: '50%', background: 'var(--primary-500)' }} />
+              감지된 음식: {result.food}
+            </div>
+          )}
 
           <form onSubmit={handleSubmit} className="form">
             <div
@@ -269,7 +289,7 @@ export function UploadPage({ username }: Props) {
           )}
         </div>
 
-        {nutrition && <NutritionCard data={nutrition} />}
+        {nutrition && <NutritionCard data={nutrition} food={result?.food} />}
       </div>
     </div>
   )
