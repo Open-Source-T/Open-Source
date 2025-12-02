@@ -1,5 +1,5 @@
 import type { FormEvent } from 'react'
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { api } from '../api'
 
@@ -10,15 +10,32 @@ type Props = {
 export function UploadPage({ username }: Props) {
   const navigate = useNavigate()
   const [file, setFile] = useState<File | null>(null)
+  const [preview, setPreview] = useState<string | null>(null)
   const [result, setResult] = useState<{ food: string; coaching: string } | null>(null)
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
+  const fileInputRef = useRef<HTMLInputElement>(null)
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedFile = e.target.files?.[0]
+    if (selectedFile) {
+      setFile(selectedFile)
+      const reader = new FileReader()
+      reader.onloadend = () => {
+        setPreview(reader.result as string)
+      }
+      reader.readAsDataURL(selectedFile)
+      // Reset result when new file is selected
+      setResult(null)
+      setError('')
+    }
+  }
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
     setError('')
     if (!file) {
-      setError('분석할 이미지를 선택하세요.')
+      setError('분석할 이미지를 선택해주세요.')
       return
     }
     setLoading(true)
@@ -35,27 +52,125 @@ export function UploadPage({ username }: Props) {
     }
   }
 
+  const triggerFileInput = () => {
+    fileInputRef.current?.click()
+  }
+
   return (
-    <div className="card">
-      <h2>음식 사진 업로드</h2>
+    <div className="card" style={{ width: 'min(600px, 100%)' }}>
+      <h2>음식 분석</h2>
       <p className="muted">
-        YOLO로 음식명을 감지하고 Gemini로 영양 코칭을 생성합니다. {username ? `(${username}님 환영합니다)` : ''}
+        {username ? `${username}님, ` : ''}오늘 드신 음식 사진을 올려주세요.<br />
+        AI가 영양 성분을 분석하고 코칭해드립니다.
       </p>
+
       <form onSubmit={handleSubmit} className="form">
-        <label>
-          음식 사진 선택
-          <input type="file" accept="image/*" onChange={(e) => setFile(e.target.files?.[0] || null)} />
-        </label>
-        {error && <div className="alert error">{error}</div>}
-        <button className="primary" type="submit" disabled={loading}>
-          {loading ? '분석 중...' : '분석하기'}
+        <div
+          onClick={triggerFileInput}
+          style={{
+            border: '2px dashed var(--slate-300)',
+            borderRadius: '1rem',
+            padding: '2rem',
+            textAlign: 'center',
+            cursor: 'pointer',
+            transition: 'all 0.2s',
+            background: preview ? `url(${preview}) center/cover no-repeat` : 'var(--slate-50)',
+            height: '300px',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            position: 'relative',
+            overflow: 'hidden'
+          }}
+          onMouseOver={(e) => e.currentTarget.style.borderColor = 'var(--primary-400)'}
+          onMouseOut={(e) => e.currentTarget.style.borderColor = 'var(--slate-300)'}
+        >
+          {preview && (
+            <div style={{
+              position: 'absolute',
+              inset: 0,
+              background: 'rgba(0,0,0,0.4)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              opacity: 0,
+              transition: 'opacity 0.2s',
+            }}
+              onMouseOver={(e) => e.currentTarget.style.opacity = '1'}
+              onMouseOut={(e) => e.currentTarget.style.opacity = '0'}
+            >
+              <span style={{ color: 'white', fontWeight: 600 }}>사진 변경하기</span>
+            </div>
+          )}
+
+          {!preview && (
+            <>
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--slate-400)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ marginBottom: '1rem' }}>
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                <polyline points="21 15 16 10 5 21"></polyline>
+              </svg>
+              <span style={{ color: 'var(--slate-500)', fontWeight: 500 }}>
+                클릭하여 사진 업로드
+              </span>
+            </>
+          )}
+
+          <input
+            type="file"
+            accept="image/*"
+            onChange={handleFileChange}
+            ref={fileInputRef}
+            style={{ display: 'none' }}
+          />
+        </div>
+
+        {error && (
+          <div className="alert error">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="8" x2="12" y2="12"></line>
+              <line x1="12" y1="16" x2="12.01" y2="16"></line>
+            </svg>
+            {error}
+          </div>
+        )}
+
+        <button className="primary" type="submit" disabled={loading || !file}>
+          {loading ? (
+            <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
+              <svg className="animate-spin" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M21 12a9 9 0 1 1-6.219-8.56"></path>
+              </svg>
+              AI 분석 중...
+            </span>
+          ) : (
+            '분석하기'
+          )}
         </button>
       </form>
 
       {result && (
-        <div className="result">
-          <div className="pill">감지된 음식: {result.food || '미확인'}</div>
-          <div className="coaching">{result.coaching}</div>
+        <div className="result" style={{ animation: 'slideUp 0.5s ease-out' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '1rem' }}>
+            <span style={{
+              background: 'var(--primary-100)',
+              color: 'var(--primary-700)',
+              padding: '4px 12px',
+              borderRadius: '20px',
+              fontWeight: 700,
+              fontSize: '0.9rem'
+            }}>
+              분석 결과
+            </span>
+            <h3 style={{ margin: 0, fontSize: '1.2rem', color: 'var(--slate-800)' }}>{result.food || '음식명 미확인'}</h3>
+          </div>
+          <div className="coaching">
+            {result.coaching.split('\n').map((line, i) => (
+              <p key={i} style={{ marginBottom: '0.5rem' }}>{line}</p>
+            ))}
+          </div>
         </div>
       )}
     </div>
