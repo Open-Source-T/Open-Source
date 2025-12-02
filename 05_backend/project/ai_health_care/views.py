@@ -5,40 +5,15 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.core.files.storage import FileSystemStorage
 from django.shortcuts import redirect, render
-from huggingface_hub import login as ***REMOVED***login
 from pathlib import Path
-from transformers import pipeline
 from ultralytics import YOLO
+from .services.gemini_client import GeminiClientError, generate_coaching_text
 from .models import UserInfo
-import torch
-
-# Hugging Face 로그인
-***REMOVED***login(token = '')
 
 # 음식 사진 분석 모델 불러오기
 BASE_DIR = Path(__file__).resolve().parent.parent.parent.parent
 MODEL_PATH = BASE_DIR / '03_ai_model/02_model/best.pt'
 YOLO_MODEL = YOLO(MODEL_PATH)
-
-# 사용자 맞춤 건강 코칭 모델 불러오기
-LLM_MODEL = 'google/gemma-3-1b-it'
-pipe = pipeline(
-    'text-generation',
-    model = LLM_MODEL,
-    torch_dtype = torch.float32,
-    device_map = 'auto'
-)
-
-# 사용자 맞춤 건강 코칭 함수
-def get_coaching(age, sex, height, weight, food):
-    prompt = (
-        'You are a nutrition assistant.'
-        f'A {age}-year-old {sex}, {height}cm tall, weighing {weight}kg user ate {food}.'
-        "Output one sentence only in this format: 'Calories: _, Carbs: _, Protein: _, Fat: _, Advice: _'"
-        'Fill the blanks with the actual nutrition info and personalized advice. Nothing else.'
-    )
-    ret = pipe(prompt, max_new_tokens = 200, return_full_text = False)
-    return ret[0]['generated_text']
 
 # 회원 가입
 def sign_up(request):
@@ -138,10 +113,14 @@ def upload(request):
         user = request.user
 
         # 음식의 칼로리와 영양 성분 정보 분석하고 사용자 맞춤 건강 코칭 생성하기
-        coaching = get_coaching(user.age, user.sex, user.height, user.weight, food)
+        try:
+            coaching = generate_coaching_text(user.age, user.sex, user.height, user.weight, food)
+        except GeminiClientError as exc:
+            messages.error(request, f'AI 분석 중 문제가 발생했습니다: {exc}')
+            return redirect('upload')
 
         # 사용자 맞춤 건강 코칭을 models.py의 description에 누적해서 저장하기
-        user.description += coaching
+        user.description = (user.description or '') + coaching
         user.save()
 
         return redirect('record')

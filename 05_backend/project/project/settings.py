@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
+import os
 from pathlib import Path
 
 # Application definition
@@ -124,3 +125,9 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Gemini API 환경 변수
+GEMINI_API_KEY = os.environ.get('GEMINI_API_KEY', '')
+GEMINI_MODEL_ID = os.environ.get('GEMINI_MODEL_ID', 'gemini-2.5-flash-lite')
+GEMINI_TEMPERATURE = os.environ.get('GEMINI_TEMPERATURE', 0.2)
+GEMINI_MAX_OUTPUT_TOKENS = os.environ.get('GEMINI_MAX_OUTPUT_TOKENS', 200)
