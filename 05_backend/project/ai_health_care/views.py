@@ -119,8 +119,8 @@ def upload(request):
             messages.error(request, f'AI 분석 중 문제가 발생했습니다: {exc}')
             return redirect('upload')
 
-        # 사용자 맞춤 건강 코칭을 models.py의 description에 누적해서 저장하기
-        user.description = (user.description or '') + coaching
+        # 가장 최근 분석 결과만 저장
+        user.description = coaching
         user.save()
 
         return redirect('record')
