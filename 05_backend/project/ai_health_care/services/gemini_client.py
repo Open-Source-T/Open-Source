@@ -105,7 +105,10 @@ def generate_coaching_text(age, sex, height, weight, food):
         )
     except Exception as exc:
         logger.exception("Gemini API 호출 실패")
-        raise GeminiClientError("Gemini API 호출 중 오류가 발생했습니다.") from exc
+        err_txt = str(exc)
+        if "503" in err_txt or "overloaded" in err_txt.lower():
+            raise GeminiClientError("Gemini 모델이 과부하 상태입니다. 잠시 후 다시 시도해주세요.") from exc
+        raise GeminiClientError(f"Gemini API 호출 중 오류가 발생했습니다: {err_txt}") from exc
 
     text = _extract_text(response)
     if not text:

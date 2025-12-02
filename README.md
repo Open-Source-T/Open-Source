@@ -97,8 +97,6 @@ npm install
 npm run dev
 ```
 
-Vite 개발 서버 주소(예: `http://localhost:5173`)로 접속하면 React 기반 UI를 통해 Django 백엔드 API(`/api/...`)와 연동된 서비스를 사용할 수 있습니다.
-
 ## Usage
 1. 회원 가입을 하고 로그인합니다.
 2. 음식 사진을 업로드합니다.

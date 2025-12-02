@@ -3,6 +3,7 @@
 from django.contrib.auth import authenticate, login, logout
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+from django.core.files.storage import FileSystemStorage
 from pathlib import Path
 from ultralytics import YOLO
 from .services.gemini_client import GeminiClientError, generate_coaching_text
