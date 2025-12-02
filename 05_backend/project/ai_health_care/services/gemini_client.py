@@ -13,7 +13,7 @@ logger = logging.getLogger(__name__)
 
 DEFAULT_MODEL_ID = getattr(settings, "GEMINI_MODEL_ID", "gemini-2.5-flash-lite")
 DEFAULT_TEMPERATURE = getattr(settings, "GEMINI_TEMPERATURE", 0.2)
-DEFAULT_MAX_TOKENS = getattr(settings, "GEMINI_MAX_OUTPUT_TOKENS", 200)
+DEFAULT_MAX_TOKENS = getattr(settings, "GEMINI_MAX_OUTPUT_TOKENS", 5000)
 
 _client = None
 
