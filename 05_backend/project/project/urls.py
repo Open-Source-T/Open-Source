@@ -25,4 +25,10 @@ urlpatterns = [
     path('upload/', views.upload, name = 'upload'),
     path('record/', views.record, name = 'record'),
     path('logout/', views.logout_view, name = 'logout_view'), 
+    # API (JSON)
+    path('api/sign-up/', views.api_sign_up, name='api_sign_up'),
+    path('api/login/', views.api_login, name='api_login'),
+    path('api/logout/', views.api_logout, name='api_logout'),
+    path('api/upload/', views.api_upload, name='api_upload'),
+    path('api/record/', views.api_record, name='api_record'),
 ]
