@@ -137,6 +137,6 @@ Email: a01091040305@gmail.com
 - Kim, H. W. ([Kim, H. W.](https://github.com/flecy0904))
 Email: khw09040@dankook.ac.kr
 - Park, K. B. ([Park, K. B.](https://github.com/BiNdellx))
-Email: @gmail.com
+Email: biin0411@dankook.ac.kr
 - Jung, S. I. ([Jung, S. I.](https://github.com/DNUBI))
 Email: @gmail.com
